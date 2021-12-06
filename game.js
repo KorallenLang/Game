@@ -32,19 +32,20 @@ document.addEventListener("keyup", keyUpHandler, false);
 // Event Handlers
 function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
-        rightPressed = true;
-    }
+        Paddle1.paddleMoveRight();
+        console.log(Paddle1.paddleX);    }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
-        leftPressed = true;
+        Paddle1.paddleMoveLeft();
+        console.log(Paddle1.paddleX);
     }
 }
 
 function keyUpHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
-        rightPressed = false;
+        Paddle1.rightPressed = false;
     }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
-        leftPressed = false;
+        Paddle1.leftPressed = false;
     }
 }
 
