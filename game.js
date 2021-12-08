@@ -1,18 +1,21 @@
 import Paddle from "./player.js";
+
 // Canvas variables
 let canvas = document.getElementById('canvas1');
 let ctx = canvas.getContext('2d');
 const Paddle1 = new Paddle(ctx, canvas);
 console.log(Paddle1);
+
 // // Ball variables
 // let x = canvas.width/2;
 // let y = canvas.height-30;
 // let dx = -2;
 // let dy = -2;
 // let ballRadius = 10;
-
 function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.canvas.width  = window.innerWidth;
+    ctx.canvas.height = window.innerHeight;
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     Paddle1.drawPaddle();
     // drawBall();
     // x += dx;
@@ -33,11 +36,13 @@ document.addEventListener("keyup", keyUpHandler, false);
 function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
         Paddle1.paddleMoveRight();
-        console.log(Paddle1.paddleX);    }
+    }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         Paddle1.paddleMoveLeft();
-        console.log(Paddle1.paddleX);
     }
+    // else if(e.key == "Up" || e.key == "ArrowUp") {
+    //     Paddle1.paddleMoveUp(-5, true);
+    // }
 }
 
 function keyUpHandler(e) {
@@ -47,6 +52,9 @@ function keyUpHandler(e) {
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         Paddle1.leftPressed = false;
     }
+    // else if(e.key == "Up" || e.key == "ArrowUp") {
+    //     Paddle1.upPressed = false;
+    // }
 }
 
 setInterval(draw, 10);
