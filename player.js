@@ -1,14 +1,11 @@
-// let paddleX = (canvas.width-paddleWidth) / 2;
 export default class Paddle {
     constructor(canvasContext, canvasVar) {
         this.ctx = canvasContext;
         this.canvas = canvasVar;
         this.paddleHeight = 10;
         this.paddleWidth = 75;
-        // paddleX,Y giving incorrect value compared to actual logged value
         this.paddleX = (this.canvas.width - this.paddleWidth) / 2;
         this.paddleY = this.canvas.height;
-        this.paddleYLimit = 10;
         this.paddleIsGoingDown = false;
         this.rightPressed = false;
         this.leftPressed = false;
@@ -17,14 +14,13 @@ export default class Paddle {
 
     drawPaddle() {
         this.ctx.beginPath();
-        this.ctx.rect(this.paddleX, this.canvas.height, this.paddleWidth, -this.paddleHeight);
+        this.ctx.rect(this.paddleX, this.paddleY, this.paddleWidth, -this.paddleHeight);
         this.ctx.fillStyle = "#0095DD";
         this.ctx.fill();
         this.ctx.closePath();
     }
 
     paddleMoveLeft() {
-        console.log(this.paddleX);
         this.paddleX -= 2;
         if (this.paddleX < 0) {
             this.paddleX = 0;
@@ -38,16 +34,24 @@ export default class Paddle {
         }
     }
 
-    // paddleMoveUp(n) {
-    //     let tempJump = this.paddleY;
-    //     if (this.paddleY < 0) {
-    //         this.paddleY = 0;
-    //     }
-    //     while(this.paddleY - tempJump < this.paddleYLimit) {
-    //         this.paddleY += n;
-    //     }
-    //     while(this.paddleY < this.paddleYLimit ) {
-    //         this.paddleY += n;
-    //     }
-    // }
+    paddleCallMoveUp() {
+        let startY = this.paddleY;
+        let paddleYLimit = this.paddleY - 10;
+        let paddleJump = setInterval(() => {
+            this.paddleMoveUp(paddleJump, startY, paddleYLimit);
+        }, 100);
+    }
+
+    paddleMoveUp(interval, startPoint, paddleYLimitation) {
+        if (this.paddleY > paddleYLimitation && !this.paddleIsGoingDown) {
+            this.paddleY -= 2;
+        } else {
+            this.paddleIsGoingDown = true;
+            this.paddleY += 2;
+            if (this.paddleY === startPoint) {
+                clearInterval(interval);
+                this.paddleIsGoingDown = false;
+            }
+        }
+    }   
 }

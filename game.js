@@ -17,12 +17,16 @@ console.log(Paddle1);
 // let ballRadius = 10;
 function draw() {
     let cW = canvas.width;
-    // let cH = canvas.height;
+    let cH = canvas.height;
     canvas.width  = window.innerWidth;
-    // canvas.height = window.innerHeight;
+    canvas.height = window.innerHeight;
     if (cW != canvas.width) {  // window has been resized
         let tempXOffset = (canvas.width - cW) / 2;
         Paddle1.paddleX += tempXOffset;
+    }
+    if (cH != canvas.width) {  // window has been resized
+        let tempYOffset = canvas.height - cH;
+        Paddle1.paddleX += tempYOffset;
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // ctx.fillStyle = "blue";
@@ -52,9 +56,9 @@ function keyDownHandler(e) {
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         Paddle1.paddleMoveLeft();
     }
-    // else if(e.key == "Up" || e.key == "ArrowUp") {
-    //     Paddle1.paddleMoveUp(-5, true);
-    // }
+    else if(e.key == "Up" || e.key == "ArrowUp") {
+        let paddleJump = Paddle1.paddleCallMoveUp();
+    }
 }
 
 function keyUpHandler(e) {
@@ -64,9 +68,9 @@ function keyUpHandler(e) {
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         Paddle1.leftPressed = false;
     }
-    // else if(e.key == "Up" || e.key == "ArrowUp") {
-    //     Paddle1.upPressed = false;
-    // }
+    else if(e.key == "Up" || e.key == "ArrowUp") {
+        Paddle1.upPressed = false;
+    }
 }
 
 setInterval(draw, 10);
