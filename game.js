@@ -1,9 +1,12 @@
 import Paddle from "./player.js";
 
 // Canvas variables
-let canvas = document.getElementById('canvas1');
+let canvas = document.createElement("CANVAS");
 let ctx = canvas.getContext('2d');
-const Paddle1 = new Paddle(ctx, canvas);
+document.body.appendChild(canvas);
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
+const Paddle1 = new Paddle(ctx, canvas);  // fixed the problem by adjusting where I initialized height and width
 console.log(Paddle1);
 
 // // Ball variables
@@ -13,9 +16,12 @@ console.log(Paddle1);
 // let dy = -2;
 // let ballRadius = 10;
 function draw() {
-    ctx.canvas.width  = window.innerWidth;
-    ctx.canvas.height = window.innerHeight;
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // ctx.fillStyle = "blue";
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     Paddle1.drawPaddle();
     // drawBall();
     // x += dx;

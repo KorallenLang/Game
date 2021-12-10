@@ -7,7 +7,7 @@ export default class Paddle {
         this.paddleWidth = 75;
         // paddleX,Y giving incorrect value compared to actual logged value
         this.paddleX = (this.canvas.width - this.paddleWidth) / 2;
-        this.paddleY = this.ctx.canvas.height;
+        this.paddleY = this.canvas.height;
         this.paddleYLimit = 10;
         this.paddleIsGoingDown = false;
         this.rightPressed = false;
@@ -17,13 +17,14 @@ export default class Paddle {
 
     drawPaddle() {
         this.ctx.beginPath();
-        this.ctx.rect((this.canvas.width - this.paddleWidth) / 2, this.ctx.canvas.height, this.paddleWidth, -this.paddleHeight);
+        this.ctx.rect(this.paddleX, this.canvas.height, this.paddleWidth, -this.paddleHeight);
         this.ctx.fillStyle = "#0095DD";
         this.ctx.fill();
         this.ctx.closePath();
     }
 
     paddleMoveLeft() {
+        console.log(this.paddleX);
         this.paddleX -= 2;
         if (this.paddleX < 0) {
             this.paddleX = 0;
