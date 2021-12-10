@@ -16,8 +16,14 @@ console.log(Paddle1);
 // let dy = -2;
 // let ballRadius = 10;
 function draw() {
+    let cW = canvas.width;
+    // let cH = canvas.height;
     canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // canvas.height = window.innerHeight;
+    if (cW != canvas.width) {  // window has been resized
+        let tempXOffset = (canvas.width - cW) / 2;
+        Paddle1.paddleX += tempXOffset;
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // ctx.fillStyle = "blue";
     // ctx.fillRect(0, 0, canvas.width, canvas.height);
