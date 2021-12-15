@@ -5,7 +5,7 @@ export default class Paddle {
         this.paddleHeight = 10;
         this.paddleWidth = 75;
         this.paddleX = (this.canvas.width - this.paddleWidth) / 2;
-        this.paddleY = this.canvas.height;
+        this.maxY = this.canvas.height;
         this.paddleIsGoingDown = false;
         this.rightPressed = false;
         this.leftPressed = false;
@@ -14,7 +14,7 @@ export default class Paddle {
 
     drawPaddle() {
         this.ctx.beginPath();
-        this.ctx.rect(this.paddleX, this.paddleY, this.paddleWidth, -this.paddleHeight);
+        this.ctx.rect(this.paddleX, this.maxY, this.paddleWidth, -this.paddleHeight);
         this.ctx.fillStyle = "#0095DD";
         this.ctx.fill();
         this.ctx.closePath();
@@ -35,20 +35,20 @@ export default class Paddle {
     }
 
     paddleCallMoveUp() {
-        let startY = this.paddleY;
-        let paddleYLimit = this.paddleY - 10;
+        let startY = this.maxY;
+        let paddleYLimit = this.maxY - 10;
         let paddleJump = setInterval(() => {
             this.paddleMoveUp(paddleJump, startY, paddleYLimit);
         }, 100);
     }
 
     paddleMoveUp(interval, startPoint, paddleYLimitation) {
-        if (this.paddleY > paddleYLimitation && !this.paddleIsGoingDown) {
-            this.paddleY -= 2;
+        if (this.maxY > paddleYLimitation && !this.paddleIsGoingDown) {
+            this.maxY -= 2;
         } else {
             this.paddleIsGoingDown = true;
-            this.paddleY += 2;
-            if (this.paddleY === startPoint) {
+            this.maxY += 2;
+            if (this.maxY === startPoint) {
                 clearInterval(interval);
                 this.paddleIsGoingDown = false;
             }
