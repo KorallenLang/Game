@@ -1,5 +1,6 @@
 import Paddle from "./player.js";
 import Floor from "./floor.js";
+import Spikes from "./spikes.js";
 
 // Canvas variables
 let canvas = document.createElement("CANVAS");
@@ -7,65 +8,47 @@ let ctx = canvas.getContext('2d');
 document.body.appendChild(canvas);
 canvas.width  = window.innerWidth;
 canvas.height = window.innerHeight;
-const Paddle1 = new Paddle(ctx, canvas);  // fixed the problem by adjusting where I initialized height and width
+// check for old game in storage
+const Paddle1 = new Paddle(ctx, canvas, 325, 586);  // fixed the problem by adjusting where I initialized height and width
 console.log(Paddle1);
 const Floor1 = new Floor(ctx, canvas);
+const spikesArr = [];
+let spikeTempX = Math.random() * 586
 console.log(Floor1);
+let levelFinished = false;
 
-function isValidYPosition(obj) {
-    let y1 = obj.maxY;
-    if (y1 > window.innerHeight - 15 && y1 <= window.innerHeight) {
-            y1 -= 15;
+function createBackground(n, f) {
+    for(let i = 0; i < n; i++) {
+        spikesArr[n] = new Spikes(ctx, canvas);
+        spikesArr[n].drawSpike(586, 536, f);
     }
-    return y1;
 }
-// function isColliding(obj1, obj2) {
-//     let y1 = obj1.maxY;
-//     let y2 = obj2.minY;
-//     let y2Height = obj2.floorHeight;
-//     if (y1 > y2 && y1 <= y2 + y2Height) {
-//         y1 = y2 - y2Height;
-//     }
-//     console.log()
-//     return y1;
-// }
 
-// // Ball variables
-// let x = canvas.width/2;
-// let y = canvas.height-30;
-// let dx = -2;
-// let dy = -2;
-// let ballRadius = 10;
+function createNewLevel() {
+    spikeTempX = Math.random() * 586;
+    createBackground(1, spikeTempX);
+}
+
 function draw() {
-    let cW = canvas.width;
-    let cH = canvas.height;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    if (cW != canvas.width) {  // window has been resized
-        let tempXOffset = (canvas.width - cW) / 2;
-        Paddle1.paddleX += tempXOffset;
-        Floor1.floorWidth = canvas.width;
-    }
-    if (cH != canvas.height) {  // window has been resized
-        // let tempYOffset = canvas.height - cH;
-        // Paddle1.paddleY += tempYOffset;
-        Floor1.maxY = canvas.height;
-    }
-    Paddle1.maxY = isValidYPosition(Paddle1);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     Floor1.drawFloor();
+    if (!levelFinished) {
+        createBackground(1, spikeTempX);
+    }
+    else {
+        createNewLevel();
+        levelFinished = false;
+    }
     Paddle1.drawPaddle();
-    // drawBall();
-    // x += dx;
-    // y += dy;
-    // if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-    //     dx = -dx;
-    // }
-    // if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
-    //     dy = -dy;
-    // }
-    
+    if (canvas.width - Paddle1.paddleX == 75) {  // level finished turns true
+        levelFinished = true;
+        Paddle1.paddleX = 0;
+    }
 }
+
+console.log(spikesArr);
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -73,7 +56,6 @@ document.addEventListener("keyup", keyUpHandler, false);
 // Event Handlers
 function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
-        console.log("Paddle.maxY : " + Paddle1.maxY);
         Paddle1.paddleMoveRight();
     }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
