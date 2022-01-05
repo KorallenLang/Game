@@ -12,6 +12,7 @@ export default class Paddle {
         this.rightPressed = false;
         this.leftPressed = false;
         this.upPressed = false;
+        this.crtJump = false;
     }
 
     drawPaddle() {
@@ -37,6 +38,7 @@ export default class Paddle {
     }
 
     paddleCallMoveUp() {
+        this.crtJump = true;
         let startY = this.paddleY;
         let paddleYLimit = this.paddleY - 30;
         let paddleJump = setInterval(() => {
@@ -53,6 +55,7 @@ export default class Paddle {
             if (this.paddleY === startPoint) {
                 clearInterval(interval);
                 this.paddleIsGoingDown = false;
+                this.crtJump = false;
             }
         }
     }   

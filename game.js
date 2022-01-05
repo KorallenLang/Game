@@ -13,20 +13,25 @@ const Paddle1 = new Paddle(ctx, canvas, 325, 586);  // fixed the problem by adju
 console.log(Paddle1);
 const Floor1 = new Floor(ctx, canvas);
 const spikesArr = [];
-let spikeTempX = Math.random() * 586
+let spikeTempX = Math.floor(Math.random() * 100) + 80;
 console.log(Floor1);
+let n = Math.floor(Math.random() * 5);
 let levelFinished = false;
 
-function createBackground(n, f) {
-    for(let i = 0; i < n; i++) {
-        spikesArr[n] = new Spikes(ctx, canvas);
-        spikesArr[n].drawSpike(586, 536, f);
+function createBackground(numOfSpikes, baseSpikeX) {
+    spikesArr[0] = new Spikes(ctx, canvas);
+    spikesArr[0].drawSpike(586, 536, baseSpikeX);
+    for(let i = 1; i < numOfSpikes; i++) {  // add logic to create different groups
+        baseSpikeX = spikesArr[i - 1].endX;
+        spikesArr[i] = new Spikes(ctx, canvas);
+        spikesArr[i].drawSpike(586, 536, baseSpikeX);
     }
 }
 
 function createNewLevel() {
-    spikeTempX = Math.random() * 586;
-    createBackground(1, spikeTempX);
+    spikeTempX = Math.floor(Math.random() * 100) + 80;
+    n = Math.floor(Math.random() * 5);
+    createBackground(n, spikeTempX);
 }
 
 function draw() {
@@ -35,7 +40,7 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     Floor1.drawFloor();
     if (!levelFinished) {
-        createBackground(1, spikeTempX);
+        createBackground(n, spikeTempX);
     }
     else {
         createNewLevel();
@@ -62,7 +67,9 @@ function keyDownHandler(e) {
         Paddle1.paddleMoveLeft();
     }
     else if(e.key == "Up" || e.key == "ArrowUp") {
-        Paddle1.paddleCallMoveUp();
+        if (!Paddle1.crtJump) {
+            Paddle1.paddleCallMoveUp();
+        }
     }
 }
 
