@@ -15,13 +15,20 @@ const Floor1 = new Floor(ctx, canvas);
 const spikesArr = [];
 let spikeTempX = Math.floor(Math.random() * 100) + 80;
 console.log(Floor1);
-let n = Math.floor(Math.random() * 5);
+let numberOfSpikes = Math.floor(Math.random() * 5);
 let levelFinished = false;
 
 function createBackground(numOfSpikes, baseSpikeX) {
     spikesArr[0] = new Spikes(ctx, canvas);
     spikesArr[0].drawSpike(586, 536, baseSpikeX);
     for(let i = 1; i < numOfSpikes; i++) {  // add logic to create different groups
+        /* let flag = Math.floor(Math.random() * 2);
+         * if (flag) {
+             baseSpikeX = spikesArr[i - 1].endX;
+         } else {
+             baseSpikeX = spikesArr[i - 1].endX + Math.floor(Math.random() * 100);
+         }
+        */
         baseSpikeX = spikesArr[i - 1].endX;
         spikesArr[i] = new Spikes(ctx, canvas);
         spikesArr[i].drawSpike(586, 536, baseSpikeX);
@@ -30,8 +37,8 @@ function createBackground(numOfSpikes, baseSpikeX) {
 
 function createNewLevel() {
     spikeTempX = Math.floor(Math.random() * 100) + 80;
-    n = Math.floor(Math.random() * 5);
-    createBackground(n, spikeTempX);
+    numberOfSpikes = Math.floor(Math.random() * 5);
+    createBackground(numberOfSpikes, spikeTempX);
 }
 
 function draw() {
@@ -40,7 +47,7 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     Floor1.drawFloor();
     if (!levelFinished) {
-        createBackground(n, spikeTempX);
+        createBackground(numberOfSpikes, spikeTempX);
     }
     else {
         createNewLevel();
