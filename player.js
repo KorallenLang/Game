@@ -31,7 +31,7 @@ export default class Paddle {
     }
 
     paddleMoveRight() {
-        this.paddleX += 2;
+        this.paddleX += 20;
         if (this.paddleX > this.canvas.width - this.paddleWidth) {
             this.paddleX = this.canvas.width - this.paddleWidth;
         }
@@ -40,15 +40,16 @@ export default class Paddle {
     paddleCallMoveUp() {
         this.crtJump = true;
         let startY = this.paddleY;
-        let paddleYLimit = this.paddleY - 30;
+        let paddleYLimit = this.paddleY - 50;
         let paddleJump = setInterval(() => {
             this.paddleMoveUp(paddleJump, startY, paddleYLimit);
-        }, 100);
+        }, 70);
     }
 
     paddleMoveUp(interval, startPoint, paddleYLimitation) {
         if (this.paddleY > paddleYLimitation && !this.paddleIsGoingDown) {
             this.paddleY -= 5;
+            this.paddleX += 2;
         } else {
             this.paddleIsGoingDown = true;
             this.paddleY += 5;

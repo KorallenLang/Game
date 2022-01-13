@@ -2,20 +2,21 @@ export default class Spikes {
     constructor(canvasContext, canvasVar) {
         this.ctx = canvasContext;
         this.canvas = canvasVar;
-        this.endX = 0;
+        this.endX = Math.floor(Math.random() * 100) + 80;
+        this.baseY = 586;
+        this.topY = 536;
     }
 
-    drawSpike(baseY, topY, startX) {
+    drawSpike() {
         this.ctx.beginPath();
-        this.ctx.moveTo(startX, baseY);
+        let startX = this.endX - 30;
+        this.ctx.moveTo(startX, this.baseY);
         let topX = startX + 15;
-        this.ctx.lineTo(topX, topY);
+        this.ctx.lineTo(topX, this.topY);
         this.ctx.stroke();
-        topX += 15;
-        this.endX = topX;
-        this.ctx.lineTo(topX, baseY);
+        this.ctx.lineTo(this.endX, this.baseY);
         this.ctx.stroke();
-        this.ctx.lineTo(startX, baseY);
+        this.ctx.lineTo(startX, this.baseY);
         this.ctx.fillStyle = 'grey';
         this.ctx.fill();
     }
